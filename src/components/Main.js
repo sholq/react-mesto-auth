@@ -17,7 +17,21 @@ function Main(props) {
       </section>
 
       <section className="elements">
-        <ul className="elements__list"></ul>
+        <ul className="elements__list">
+          {props.cards.map((card) => (
+            <li className="element" id={card._id}>
+              <img className="element__image" src={card.link} alt={card.name} />
+              <div className="element__container">
+                <h2 className="element__caption">{card.name}</h2>
+                <div>
+                  <button className="element__like" type="button" aria-label="Лайк"></button>
+                  <p className="element__counter">{card.likes.length}</p>
+                </div>
+              </div>
+              <button className="element__delete" type="button" aria-label="Удалить"></button>
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   )

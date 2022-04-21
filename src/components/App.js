@@ -16,12 +16,18 @@ function App() {
   const [userDescription , setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
 
+  const [cards, setCards] = React.useState([]);
+
   React.useEffect(() => {
-    api.getUserInfo()
-      .then((res) => {
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cards]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
   
@@ -46,7 +52,8 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         userName={userName}
         userDescription={userDescription}
-        userAvatar={userAvatar} />
+        userAvatar={userAvatar}
+        cards={cards} />
       <Footer />
       <PopupWithForm title='Редактировать профиль' name='edit' children={
         <>
