@@ -11,12 +11,15 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   
   const [userName, setUserName] = React.useState('');
   const [userDescription , setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
 
   const [cards, setCards] = React.useState([]);
+
+  const [selectedCard, setSelectedCard] = React.useState('');
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -44,6 +47,11 @@ function App() {
     setIsEditAvatarPopupOpen(true);
   }
 
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setIsImagePopupOpen(true);
+  }
+
   return (
     <div className="page">
       <Header />
@@ -53,7 +61,8 @@ function App() {
         userName={userName}
         userDescription={userDescription}
         userAvatar={userAvatar}
-        cards={cards} />
+        cards={cards}
+        onCardClick={handleCardClick} />
       <Footer />
       <PopupWithForm title='Редактировать профиль' name='edit' children={
         <>
@@ -101,7 +110,9 @@ function App() {
           <button className="popup__save-button popup__save-button_type_confirm">Да</button>
         </>
       } />
-      <ImagePopup />
+      <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={() => {
+        setIsImagePopupOpen(false);
+      }} />
     </div>
   );
 }
