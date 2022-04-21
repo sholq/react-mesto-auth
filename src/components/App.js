@@ -4,12 +4,30 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import React from 'react';
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  
+  
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
+  }
+
   return (
     <div className="page">
       <Header />
-      <Main />
+      <Main  onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
       <Footer />
       <PopupWithForm title='Редактировать профиль' name='edit' children={
         <>
@@ -23,7 +41,9 @@ function App() {
           </label>
           <button className="popup__save-button" type="submit">Сохранить</button>
         </>
-      } />
+      } isOpen={isEditProfilePopupOpen} onClose={() => {
+        setIsEditProfilePopupOpen(false);
+      }} />
       <PopupWithForm title='Новое место' name='add' children={
         <>
           <label className="popup__field">
@@ -36,7 +56,9 @@ function App() {
           </label>
           <button className="popup__save-button" type="submit">Создать</button>
         </>
-      } />
+      } isOpen={isAddPlacePopupOpen} onClose={() => {
+        setIsAddPlacePopupOpen(false);
+      }} />
       <PopupWithForm title='Обновить аватар' name='avatar' children={
         <>
           <label className="popup__field">
@@ -45,7 +67,9 @@ function App() {
           </label>
           <button className="popup__save-button" type="submit">Сохранить</button>
         </>
-      } />
+      } isOpen={isEditAvatarPopupOpen} onClose={() => {
+        setIsEditAvatarPopupOpen(false);
+      }} />
       <PopupWithForm title='Вы уверены?' name='confirm' children={
         <>
           <button className="popup__save-button popup__save-button_type_confirm">Да</button>
