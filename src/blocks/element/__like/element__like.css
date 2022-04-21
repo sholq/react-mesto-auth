@@ -1,0 +1,19 @@
+.element__like {
+  width: 22px;
+  height: 19px;
+  /* Позиционирование */
+  margin: auto 0 auto auto;
+  padding: 0;
+  /* Стилизация */
+  outline: none;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  background-image: url(../../../image/like.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.element__like:hover {
+  opacity: 0.5;
+}
