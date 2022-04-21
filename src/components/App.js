@@ -1,15 +1,29 @@
+import React from 'react';
 import '../App.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-import React from 'react';
+import api from '../utils/Api';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  
+  const [userName, setUserName] = React.useState('');
+  const [userDescription , setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
+
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then((res) => {
+        setUserName(res.name);
+        setUserDescription(res.about);
+        setUserAvatar(res.avatar);
+      });
+  }, []);
   
   
   const handleEditProfileClick = () => {
@@ -27,7 +41,12 @@ function App() {
   return (
     <div className="page">
       <Header />
-      <Main  onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+      <Main  onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
+        userName={userName}
+        userDescription={userDescription}
+        userAvatar={userAvatar} />
       <Footer />
       <PopupWithForm title='Редактировать профиль' name='edit' children={
         <>

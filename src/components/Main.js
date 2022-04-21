@@ -5,12 +5,12 @@ function Main(props) {
       <section className="profile">
         <div className="profile__container">
           <div className="profile__edit-wrap" onClick={props.onEditAvatar}>
-            <img className="profile__avatar" src="https://www.icachef.co.za/wp-content/uploads/2019/01/ICA_Profile-Place-Holder.png" alt=""/>
+            <img className="profile__avatar" src={props.userAvatar} alt={props.userName} />
           </div>
           <div className="profile__info">
-            <h1 className="profile__name"></h1>
+            <h1 className="profile__name">{props.userName}</h1>
             <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick={props.onEditProfile}></button>
-            <p className="profile__description"></p>
+            <p className="profile__description">{props.userDescription}</p>
           </div>
         </div>
         <button className="profile__add-button" type="button" aria-label="Добавить" onClick={props.onAddPlace}></button>
