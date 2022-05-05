@@ -1,4 +1,4 @@
-import { useState ,useContext, useEffect } from "react";
+import { useState ,useContext, useEffect, useRef } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
@@ -10,23 +10,48 @@ function EditProfilePopup(props) {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
 
-  useEffect(() => {
-    setName(currentUser.name);
-    setAbout(currentUser.about);
-  }, [currentUser]);
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isNameEmpty, setIsNameEmpty] = useState(false);
+  const [nameValidationMessage, setNameValidationMessage] = useState('');
+
+  const [isAboutValid, setIsAboutValid] = useState(true);
+  const [isAboutEmpty, setIsAboutEmpty] = useState(false);
+  const [aboutValidationMessage, setAboutValidationMessage] = useState('');
+
+  const nameInput = useRef();
+  const aboutInput = useRef();
 
   const handleNameChange = (evt) => {
     setName(evt.target.value);
+    setIsNameValid(evt.target.validity.valid);
+    setNameValidationMessage(evt.target.validationMessage);
+    (evt.target.value === '') ? setIsNameEmpty(true) : setIsNameEmpty(false);
   }
   
   const handleAboutChange = (evt) => {
     setAbout(evt.target.value);
+    setIsAboutValid(evt.target.validity.valid);
+    setAboutValidationMessage(evt.target.validationMessage);
+    (evt.target.value === '') ? setIsAboutEmpty(true) : setIsAboutEmpty(false);
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onUpdateUser({name, about});
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setName(currentUser.name);
+      setAbout(currentUser.about);
+      setNameValidationMessage('');
+      setAboutValidationMessage('');
+      setIsNameValid(true);
+      setIsAboutValid(true);
+      setIsNameEmpty(false);
+      setIsAboutEmpty(false);
+    }, 501)
+  }, [currentUser, isOpen]);
 
   return (
     <PopupWithForm
@@ -36,14 +61,16 @@ function EditProfilePopup(props) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isValid={isNameValid && isAboutValid}
+      isEmpty={isNameEmpty || isAboutEmpty}
     >
       <label className="popup__field">
-          <input className="popup__input popup__input_type_name" type="text" name="name" value={name} placeholder="Имя" autocomplete="off" id="edit-popup-name-input" minlength="2" maxlength="40" required onChange={handleNameChange}/>
-          <span className="popup__input-error edit-popup-name-input-error"></span>
+          <input ref={nameInput} className={"popup__input" + (!isNameValid ? " popup__input_invalid" : "")} type="text" name="name" value={name} placeholder="Имя" autocomplete="off" minlength="2" maxlength="40" required onChange={handleNameChange}/>
+          <span className="popup__input-error">{nameValidationMessage}</span>
       </label>
       <label className="popup__field">
-          <input className="popup__input popup__input_type_description" type="text" name="about" value={about} placeholder="О себе" autocomplete="off" id="edit-popup-description-input"  minlength="2" maxlength="200" required onChange={handleAboutChange}/>
-          <span className="popup__input-error edit-popup-description-input-error"></span>
+          <input ref={aboutInput} className={"popup__input" + (!isAboutValid ? " popup__input_invalid" : "")} type="text" name="about" value={about} placeholder="О себе" autocomplete="off"  minlength="2" maxlength="200" required onChange={handleAboutChange}/>
+          <span className="popup__input-error">{aboutValidationMessage}</span>
       </label>
     </PopupWithForm>
   )
