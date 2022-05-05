@@ -7,6 +7,14 @@ function PopupWithForm(props) {
 
     const [isInactive, setIsInactive] = useState(isEmpty || !isValid);
 
+    const handleSubmit= (evt) => {
+      button.current.textContent += '...';
+      onSubmit(evt)
+        .finally(() => {
+          button.current.textContent = buttonText;
+        });
+    }
+
     useEffect(() => {
       setIsInactive(isEmpty || !isValid);
       (isInactive) ? button.current.setAttribute("disabled", "disabled") : button.current.removeAttribute("disabled");
@@ -16,7 +24,7 @@ function PopupWithForm(props) {
       <div className={`popup popup_type_${name}` + (isOpen ? " popup_opened" : "")}>
         <div className="popup__container">
         <h2 className="popup__header">{title}</h2>
-        <form className="popup__form" name={`${name}PopupForm`} onSubmit={onSubmit}>
+        <form className="popup__form" name={`${name}PopupForm`} onSubmit={handleSubmit}>
           {children}
           <button ref={button} className={"popup__save-button" + (isInactive ? " popup__save-button_inactive" : "")} type="submit">{buttonText}</button>
         </form>

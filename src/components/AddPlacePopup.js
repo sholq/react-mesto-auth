@@ -29,7 +29,7 @@ function AddPlacePopup(props) {
   
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onAddPlace({
+    return onAddPlace({
       name: name.current.value,
       link: link.current.value
     });

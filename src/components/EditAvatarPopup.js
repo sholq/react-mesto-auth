@@ -18,7 +18,7 @@ function EditAvatarPopup(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onUpdateAvatar({
+    return onUpdateAvatar({
       avatar: avatar.current.value
     })
   }

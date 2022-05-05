@@ -55,7 +55,7 @@ function App() {
   }
 
   const handleUpdateUser = (info) => {
-    api.editUserInfo(info)
+    return api.editUserInfo(info)
       .then((info) => {
         setCurrentUser(info);
         closeAllPopup();
@@ -66,7 +66,7 @@ function App() {
   }
 
   const handleUpdateAvatar = (avatar) => {
-    api.editUserAvatar(avatar)
+    return api.editUserAvatar(avatar)
       .then((avatar) => {
         setCurrentUser(avatar);
         closeAllPopup();
@@ -99,7 +99,7 @@ function App() {
   }
 
   const handleAddPlaceSubmit = (date) => {
-    api.addNewImage(date)
+    return api.addNewImage(date)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopup();
