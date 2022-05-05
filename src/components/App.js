@@ -7,6 +7,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/Api';
 
 function App() {
@@ -61,6 +62,17 @@ function App() {
       });
   }
 
+  const handleUpdateAvatar = (avatar) => {
+    api.editUserAvatar(avatar)
+      .then((avatar) => {
+        setCurrentUser(avatar);
+        closeAllPopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -73,50 +85,36 @@ function App() {
         />
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopup} onUpdateAvatar={handleUpdateAvatar} />
+        <PopupWithForm
+          title='Вы уверены?'
+          name='confirm'
+          buttonText='Да'
+        />
         <PopupWithForm
           title='Новое место'
           name='add'
           buttonText='Создать'
           isOpen={isAddPlacePopupOpen}
-          onClose={() => {
-            setIsAddPlacePopupOpen(false);
-          }}
-        >
-            <label className="popup__field">
+          onClose={closeAllPopup}
+      >
+          <label className="popup__field">
               <input className="popup__input popup__input_type_name" type="text" name="name" placeholder="Название" autocomplete="off" id="add-popup-name-input" minlength="2" maxlength="30" required />
               <span className="popup__input-error add-popup-name-input-error"></span>
-            </label>
-            <label className="popup__field">
+          </label>
+          <label className="popup__field">
               <input className="popup__input popup__input_type_link" type="url" name="link" placeholder="Ссылка на картинку" autocomplete="off" id="add-popup-link-input" required />
               <span className="popup__input-error add-popup-link-input-error"></span>
-            </label>
+          </label>
         </PopupWithForm>
-        <PopupWithForm
-          title='Обновить аватар'
-          name='avatar'
-          buttonText='Сохранить'
-          isOpen={isEditAvatarPopupOpen}
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
           onClose={() => {
-            setIsEditAvatarPopupOpen(false);
-        }}>
-          <label className="popup__field">
-            <input className="popup__input popup__input_type_link" type="url" name="avatar" placeholder="Ссылка на картинку" autocomplete="off" id="edit-avatar-popup-link-input" required />
-            <span className="popup__input-error edit-avatar-popup-link-input-error"></span>
-            </label>
-          </PopupWithForm>
-          <PopupWithForm
-            title='Вы уверены?'
-            name='confirm'
-            buttonText='Да'
-          />
-          <ImagePopup
-            card={selectedCard}
-            isOpen={isImagePopupOpen}
-            onClose={() => {
-              setIsImagePopupOpen(false);
-            }}
-          />
-        </div>
+            setIsImagePopupOpen(false);
+          }}
+        />
+      </div>
     </CurrentUserContext.Provider>
   );
 }
