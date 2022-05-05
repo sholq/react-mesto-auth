@@ -3,7 +3,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card(props) {
   const {_id} = useContext(CurrentUserContext);
-  const {card, onCardClick, onChangeLike, onDeletecard} = props;
+  const {card, onCardClick, onChangeLike, onDeleteCard} = props;
 
   const isOwn = card.owner._id === _id;
   const isLiked = card.likes.some(i => i._id === _id);
@@ -17,7 +17,7 @@ function Card(props) {
   }
   
   const handleDeleteClick = () => {
-    onDeletecard(card);
+    onDeleteCard(card);
   }
 
   return (
