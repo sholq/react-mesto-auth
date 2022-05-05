@@ -4,7 +4,7 @@ import Card from "./Card";
 
 function Main(props) {
   const {name, about, avatar} = useContext(CurrentUserContext);
-  const {onEditAvatar, onEditProfile, onAddPlace, onCardClick} = props;
+  const {onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards} = props;
 
   return (
     <main className="main">
@@ -24,7 +24,7 @@ function Main(props) {
 
       <section className="elements">
         <ul className="elements__list">
-          {props.cards.map((card) => (
+          {cards.map((card) => (
             <Card
               card={card}
               onCardClick={onCardClick}
