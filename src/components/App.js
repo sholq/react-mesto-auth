@@ -11,7 +11,6 @@ import api from '../utils/Api';
 function App() {
   const [currentUser, setCurrentUser] = useState({});
 
-  const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -20,10 +19,9 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, cards]) => {
+    api.getUserInfo()
+      .then(userData => {
         setCurrentUser(userData);
-        setCards(cards);
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +51,6 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
-          cards={cards}
         />
         <Footer />
         <PopupWithForm
