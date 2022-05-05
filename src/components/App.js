@@ -6,6 +6,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
 import api from '../utils/Api';
 
 function App() {
@@ -42,6 +43,24 @@ function App() {
     setIsImagePopupOpen(true);
   }
 
+  const closeAllPopup = () => {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsImagePopupOpen(false);
+  }
+
+  const handleUpdateUser = (info) => {
+    api.editUserInfo(info)
+      .then((info) => {
+        setCurrentUser(info);
+        closeAllPopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -53,23 +72,7 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm
-          title='Редактировать профиль'
-          name='edit'
-          buttonText='Сохранить'
-          isOpen={isEditProfilePopupOpen}
-          onClose={() => {
-            setIsEditProfilePopupOpen(false);
-          }}>
-          <label className="popup__field">
-              <input className="popup__input popup__input_type_name" type="text" name="name" value="" placeholder="Имя" autocomplete="off" id="edit-popup-name-input" minlength="2" maxlength="40" required />
-              <span className="popup__input-error edit-popup-name-input-error"></span>
-            </label>
-            <label className="popup__field">
-              <input className="popup__input popup__input_type_description" type="text" name="about" value="" placeholder="О себе" autocomplete="off" id="edit-popup-description-input"  minlength="2" maxlength="200" required />
-              <span className="popup__input-error edit-popup-description-input-error"></span>
-            </label>
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser} />
         <PopupWithForm
           title='Новое место'
           name='add'
@@ -77,7 +80,8 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={() => {
             setIsAddPlacePopupOpen(false);
-          }}>
+          }}
+        >
             <label className="popup__field">
               <input className="popup__input popup__input_type_name" type="text" name="name" placeholder="Название" autocomplete="off" id="add-popup-name-input" minlength="2" maxlength="30" required />
               <span className="popup__input-error add-popup-name-input-error"></span>

@@ -25,6 +25,9 @@ function Main(props) {
     ((isLiked) ? api.deleteLike(card._id) : api.putLike(card._id))
       .then(newCard => {
         setCards(state => state.map(currentCard => currentCard._id === card._id ? newCard : currentCard));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -32,6 +35,9 @@ function Main(props) {
     api.deleteCard(card._id)
       .then(() => {
         setCards(state => state.filter(currentCard => !(currentCard._id === card._id)));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
