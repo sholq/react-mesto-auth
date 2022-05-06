@@ -21,27 +21,25 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, cards]) => {
-        setCurrentUser(userData);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
   
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   }
+
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   }
+
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   }
+
+  const handleCardDelete = (card) => {
+    setSelectedCard(card);
+    setIsSubmitPopupOpen(true);
+  }
+
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
@@ -79,7 +77,7 @@ function App() {
   const handleCardLike = (card) => {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    ((isLiked) ? api.deleteLike(card._id) : api.putLike(card._id))
+    return ((isLiked) ? api.deleteLike(card._id) : api.putLike(card._id))
       .then(newCard => {
         setCards(state => state.map(currentCard => currentCard._id === card._id ? newCard : currentCard));
       })
@@ -88,17 +86,7 @@ function App() {
       });
   }
 
-  const handleCardDelete = (card) => {
-    api.deleteCard(card._id)
-      .then(() => {
-        setCards(state => state.filter(currentCard => !(currentCard._id === card._id)));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  const handleAddPlaceSubmit = (date) => {
+  const handleAddPlace = (date) => {
     return api.addNewImage(date)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -109,34 +97,57 @@ function App() {
       });
   }
 
+  const handleCardDeleteSubmit = (evt) => {
+    evt.preventDefault();
+    return api.deleteCard(selectedCard._id)
+      .then(() => {
+        setCards(state => state.filter(currentCard => !(currentCard._id === selectedCard._id)));
+        setIsSubmitPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cards]) => {
+        setCurrentUser(userData);
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
         <Main
+          cards={cards}
           onEditProfile={handleEditProfileClick} 
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
-          cards={cards}
         />
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopup} onUpdateAvatar={handleUpdateAvatar} />
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopup} onAddPlace={handleAddPlaceSubmit} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopup} onAddPlace={handleAddPlace} />
         <PopupWithForm
           title='Вы уверены?'
           name='confirm'
           buttonText='Да'
+          isOpen={isSubmitPopupOpen}
+          onClose={closeAllPopup}
+          onSubmit={handleCardDeleteSubmit}
+          isValid={true}
+          isEmpty={false}
         />
-        <ImagePopup
-          card={selectedCard}
-          isOpen={isImagePopupOpen}
-          onClose={() => {
-            setIsImagePopupOpen(false);
-          }}
+        <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopup}
         />
       </div>
     </CurrentUserContext.Provider>

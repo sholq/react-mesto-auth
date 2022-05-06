@@ -29,7 +29,7 @@ function Main(props) {
               card={card}
               onCardClick={onCardClick}
               onChangeLike={onCardLike}
-              onDeleteCard={onCardDelete}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>
