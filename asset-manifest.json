@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/mesto-react/static/css/main.71b43451.css",
+    "main.js": "/mesto-react/static/js/main.0ba89699.js",
+    "static/js/787.5530211c.chunk.js": "/mesto-react/static/js/787.5530211c.chunk.js",
+    "static/media/Inter-Black.woff": "/mesto-react/static/media/Inter-Black.fd37f7e052bea1018058.woff",
+    "static/media/Inter-Regular.woff": "/mesto-react/static/media/Inter-Regular.34ed58565339f4f3be40.woff",
+    "static/media/Inter-Black.woff2": "/mesto-react/static/media/Inter-Black.141c7af6ed109b318513.woff2",
+    "static/media/Inter-Regular.woff2": "/mesto-react/static/media/Inter-Regular.4c96ed73beaf6d1e6cc7.woff2",
+    "static/media/Inter-Medium.woff": "/mesto-react/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
+    "static/media/Inter-Medium.woff2": "/mesto-react/static/media/Inter-Medium.293fd13dbca5a3e450ef.woff2",
+    "static/media/Vector.svg": "/mesto-react/static/media/Vector.ad13ffd8776469d2e29c600486b7a935.svg",
+    "static/media/like.svg": "/mesto-react/static/media/like.1ad06e85f169668a1f36.svg",
+    "index.html": "/mesto-react/index.html",
+    "static/media/delete-icon.svg": "/mesto-react/static/media/delete-icon.ce3b64935accf9b8212e.svg",
+    "static/media/like_active.svg": "/mesto-react/static/media/like_active.35948469632d0421d697.svg",
+    "static/media/edit-button.svg": "/mesto-react/static/media/edit-button.6c7bf05444b9793fdf6e.svg",
+    "static/media/avatar-edit.svg": "/mesto-react/static/media/avatar-edit.ae1a976ddb506239e9f0.svg",
+    "static/media/Close-Icon.svg": "/mesto-react/static/media/Close-Icon.039f1f5203f653b4bacd.svg",
+    "static/media/add-button.svg": "/mesto-react/static/media/add-button.bed8c136e13907f5eefb.svg",
+    "main.71b43451.css.map": "/mesto-react/static/css/main.71b43451.css.map",
+    "main.0ba89699.js.map": "/mesto-react/static/js/main.0ba89699.js.map",
+    "787.5530211c.chunk.js.map": "/mesto-react/static/js/787.5530211c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.71b43451.css",
+    "static/js/main.0ba89699.js"
+  ]
+}
