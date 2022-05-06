@@ -15,13 +15,19 @@ function PopupWithForm(props) {
         });
     }
 
+    const handleOverlayClosing = (evt) => {
+      if (evt.target.classList.contains('popup')) {
+        onClose();
+      }
+    }
+
     useEffect(() => {
       setIsInactive(isEmpty || !isValid);
       (isInactive) ? button.current.setAttribute("disabled", "disabled") : button.current.removeAttribute("disabled");
     }, [isValid, isEmpty, isInactive])
 
     return (
-      <div className={`popup popup_type_${name}` + (isOpen ? " popup_opened" : "")}>
+      <div className={`popup popup_type_${name}` + (isOpen ? " popup_opened" : "")} onClick={handleOverlayClosing}>
         <div className="popup__container">
         <h2 className="popup__header">{title}</h2>
         <form className="popup__form" name={`${name}PopupForm`} onSubmit={handleSubmit}>
