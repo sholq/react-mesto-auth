@@ -22,7 +22,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
-  
+
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   }
@@ -120,6 +120,18 @@ function App() {
       });
   }, []);
 
+  const handleEscClose = (evt) => {
+    if (evt.key === 'Escape') {
+      closeAllPopup();
+    }
+  }
+
+  useEffect(() => {
+    const isActive = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isSubmitPopupOpen;
+
+    (isActive) ? document.addEventListener('keydown', handleEscClose) : document.removeEventListener('keydown', handleEscClose);
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImagePopupOpen, isSubmitPopupOpen])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -147,8 +159,7 @@ function App() {
           isValid={true}
           isEmpty={false}
         />
-        <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopup}
-        />
+        <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopup} />
       </div>
     </CurrentUserContext.Provider>
   );

@@ -8,8 +8,8 @@ function Card(props) {
   const isOwn = card.owner._id === _id;
   const isLiked = card.likes.some(i => i._id === _id);
 
-  const handleClick = (evt) => {
-    onCardClick(evt, card);
+  const handleClick = () => {
+    onCardClick(card);
   }
 
   const handleLikeClick = () => {
