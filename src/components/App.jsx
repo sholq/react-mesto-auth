@@ -4,11 +4,11 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import SubmitPopup from './SubmitPopup';
 import api from '../utils/Api';
 
 function App() {
@@ -97,8 +97,7 @@ function App() {
       });
   }
 
-  const handleCardDeleteSubmit = (evt) => {
-    evt.preventDefault();
+  const handleCardDeleteSubmit = () => {
     return api.deleteCard(selectedCard._id)
       .then(() => {
         setCards(state => state.filter(currentCard => !(currentCard._id === selectedCard._id)));
@@ -120,18 +119,6 @@ function App() {
       });
   }, []);
 
-  const handleEscClose = (evt) => {
-    if (evt.key === 'Escape') {
-      closeAllPopup();
-    }
-  }
-
-  useEffect(() => {
-    const isActive = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isSubmitPopupOpen;
-
-    (isActive) ? document.addEventListener('keydown', handleEscClose) : document.removeEventListener('keydown', handleEscClose);
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImagePopupOpen, isSubmitPopupOpen])
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -149,16 +136,7 @@ function App() {
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopup} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopup} onAddPlace={handleAddPlace} />
-        <PopupWithForm
-          title='Вы уверены?'
-          name='confirm'
-          buttonText='Да'
-          isOpen={isSubmitPopupOpen}
-          onClose={closeAllPopup}
-          onSubmit={handleCardDeleteSubmit}
-          isValid={true}
-          isEmpty={false}
-        />
+        <SubmitPopup isOpen={isSubmitPopupOpen} onClose={closeAllPopup} onSubmit={handleCardDeleteSubmit} />
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopup} />
       </div>
     </CurrentUserContext.Provider>

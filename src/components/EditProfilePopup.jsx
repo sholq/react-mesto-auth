@@ -1,4 +1,4 @@
-import { useState ,useContext, useEffect, useRef } from "react";
+import { useState ,useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
@@ -17,9 +17,8 @@ function EditProfilePopup(props) {
   const [isAboutValid, setIsAboutValid] = useState(true);
   const [isAboutEmpty, setIsAboutEmpty] = useState(false);
   const [aboutValidationMessage, setAboutValidationMessage] = useState('');
-
-  const nameInput = useRef();
-  const aboutInput = useRef();
+  
+  const [buttonText, setButtonText] = useState('Сохранить');
 
   const handleNameChange = (evt) => {
     setName(evt.target.value);
@@ -37,10 +36,14 @@ function EditProfilePopup(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    return onUpdateUser({
+    setButtonText(buttonText + '...');
+    onUpdateUser({
       name,
       about
-    });
+    })
+      .finally(() => {
+        setButtonText(buttonText);
+      });
   }
 
   useEffect(() => {
@@ -60,7 +63,7 @@ function EditProfilePopup(props) {
     <PopupWithForm
       title='Редактировать профиль'
       name='edit'
-      buttonText='Сохранить'
+      buttonText={buttonText}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
@@ -68,11 +71,11 @@ function EditProfilePopup(props) {
       isEmpty={isNameEmpty || isAboutEmpty}
     >
       <label className="popup__field">
-          <input ref={nameInput} className={"popup__input" + (!isNameValid ? " popup__input_invalid" : "")} type="text" name="name" value={name} placeholder="Имя" autocomplete="off" minlength="2" maxlength="40" required onChange={handleNameChange}/>
+          <input className={"popup__input" + (!isNameValid ? " popup__input_invalid" : "")} type="text" name="name" value={name} placeholder="Имя" autoComplete="off" minLength="2" maxLength="40" required onChange={handleNameChange}/>
           <span className="popup__input-error">{nameValidationMessage}</span>
       </label>
       <label className="popup__field">
-          <input ref={aboutInput} className={"popup__input" + (!isAboutValid ? " popup__input_invalid" : "")} type="text" name="about" value={about} placeholder="О себе" autocomplete="off"  minlength="2" maxlength="200" required onChange={handleAboutChange}/>
+          <input className={"popup__input" + (!isAboutValid ? " popup__input_invalid" : "")} type="text" name="about" value={about} placeholder="О себе" autoComplete="off"  minLength="2" maxLength="200" required onChange={handleAboutChange}/>
           <span className="popup__input-error">{aboutValidationMessage}</span>
       </label>
     </PopupWithForm>

@@ -21,7 +21,7 @@ function Card(props) {
   }
 
   return (
-    <li className="element" id={card._id} key={card._id}>
+    <li className="element" id={card._id}>
       <img className="element__image" src={card.link} alt={card.name} onClick={handleClick} />
       <div className="element__container">
       <h2 className="element__caption">{card.name}</h2>

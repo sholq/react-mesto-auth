@@ -27,6 +27,7 @@ function Main(props) {
           {cards.map((card) => (
             <Card
               card={card}
+              key={card._id}
               onCardClick={onCardClick}
               onChangeLike={onCardLike}
               onCardDelete={onCardDelete}

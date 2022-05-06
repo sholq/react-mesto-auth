@@ -8,6 +8,8 @@ function EditAvatarPopup(props) {
   const [isEmpty, setIsEmpty] = useState(true);
   const [validationMessage, setValidationMessage] = useState('');
 
+  const [buttonText, setButtonText] = useState('Сохранить');
+
   const handleChange = (evt) => {
     setIsValid(evt.target.validity.valid);
     setValidationMessage(evt.target.validationMessage);
@@ -18,14 +20,18 @@ function EditAvatarPopup(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    return onUpdateAvatar({
+    setButtonText(buttonText + '...');
+    onUpdateAvatar({
       avatar: avatar.current.value
     })
+      .finally(() => {
+        setButtonText(buttonText);
+      });
   }
 
   useEffect(() => {
     setTimeout(() => {
-      avatar.current.value = '';
+      avatar.current.value = null;
       setValidationMessage('');
       setIsValid(true);
       setIsEmpty(true);
@@ -36,7 +42,7 @@ function EditAvatarPopup(props) {
     <PopupWithForm
       title='Обновить аватар'
       name='avatar'
-      buttonText='Сохранить'
+      buttonText={buttonText}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
@@ -44,9 +50,9 @@ function EditAvatarPopup(props) {
       isEmpty={isEmpty}
     >
       <label className="popup__field">
-        <input ref={avatar} className={"popup__input" + (!isValid ? " popup__input_invalid" : "")} type="url" name="avatar" placeholder="Ссылка на картинку" autocomplete="off" required onChange={handleChange}/>
+        <input ref={avatar} className={"popup__input" + (!isValid ? " popup__input_invalid" : "")} type="url" name="avatar" placeholder="Ссылка на картинку" autoComplete="off" required onChange={handleChange}/>
         <span className="popup__input-error">{validationMessage}</span>
-        </label>
+      </label>
     </PopupWithForm>
   )
 }

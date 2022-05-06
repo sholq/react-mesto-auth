@@ -14,6 +14,8 @@ function AddPlacePopup(props) {
   const [isLinkValid, setIsLinkValid] = useState(true);
   const [isLinkEmpty, setIsLinkEmpty] = useState(false);
   const [linkValidationMessage, setLinkValidationMessage] = useState('');
+  
+  const [buttonText, setButtonText] = useState('Создать');
 
   const handleNameChange = (evt) => {
     setIsNameValid(evt.target.validity.valid);
@@ -29,16 +31,20 @@ function AddPlacePopup(props) {
   
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    return onAddPlace({
+    setButtonText(buttonText + '...');
+    onAddPlace({
       name: name.current.value,
       link: link.current.value
-    });
+    })
+      .finally(() => {
+        setButtonText(buttonText);
+      });
   }
 
   useEffect(() => {
     setTimeout(() => {
-      name.current.value = '';
-      link.current.value = '';
+      name.current.value = null;
+      link.current.value = null;
       setNameValidationMessage('');
       setLinkValidationMessage('');
       setIsNameValid(true);
@@ -52,7 +58,7 @@ function AddPlacePopup(props) {
     <PopupWithForm
       title='Новое место'
       name='add'
-      buttonText='Создать'
+      buttonText={buttonText}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
@@ -60,11 +66,11 @@ function AddPlacePopup(props) {
       isEmpty={isNameEmpty || isLinkEmpty}
     >
       <label className="popup__field">
-          <input ref={name} className={"popup__input" + (!isNameValid ? " popup__input_invalid" : "")} type="text" name="name" placeholder="Название" autocomplete="off" minlength="2" maxlength="30" required onChange={handleNameChange}/>
+          <input ref={name} className={"popup__input" + (!isNameValid ? " popup__input_invalid" : "")} type="text" name="name" placeholder="Название" autoComplete="off" minLength="2" maxLength="30" required onChange={handleNameChange}/>
           <span className="popup__input-error">{nameValidationMessage}</span>
       </label>
       <label className="popup__field">
-          <input ref={link} className={"popup__input" + (!isLinkValid ? " popup__input_invalid" : "")} type="url" name="link" placeholder="Ссылка на картинку" autocomplete="off" required onChange={handleLinkChange}/>
+          <input ref={link} className={"popup__input" + (!isLinkValid ? " popup__input_invalid" : "")} type="url" name="link" placeholder="Ссылка на картинку" autoComplete="off" required onChange={handleLinkChange}/>
           <span className="popup__input-error">{linkValidationMessage}</span>
       </label>
     </PopupWithForm>
