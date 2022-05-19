@@ -13,6 +13,7 @@ import SubmitPopup from './SubmitPopup';
 import api from '../utils/Api';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
+import Register from './Register';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -129,19 +130,21 @@ function App() {
       <div className="page">
         <Header />
         <Switch>
-          <Route path="/sign-in">
-            <Login onLogin={null}/>
+          <Route path="/sign-up">
+            <Register onRegister={null} />
           </Route>
-          <Route path="/sign-up"></Route>
+          <Route path="/sign-in">
+            <Login onLogin={null} />
+          </Route>
           <ProtectedRoute loggedIn={loggedIn} component={Main}
-              cards={cards}
-              onEditProfile={handleEditProfileClick} 
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-            />
+            cards={cards}
+            onEditProfile={handleEditProfileClick} 
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />
         </Switch>
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser} />
