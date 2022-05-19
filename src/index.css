@@ -44,7 +44,7 @@
 @import url(./blocks/popup/__element-image/popup__element-image.css);
 @import url(./blocks/popup/__element-caption/popup__element-caption.css);
 
-.login {
+.auth {
     max-width: 358px;
     margin: 0 auto;
     display: flex;
@@ -52,7 +52,7 @@
     align-items: center;
 }
 
-.login__header {
+.auth__header {
     margin: 59px 0 48px 0;
     font-weight: 900;
     font-size: 24px;
@@ -61,11 +61,11 @@
     color: #fff;
   }
 
-  .login__form {
+  .auth__form {
       width: 100%;
   }
 
-  .login__field {
+  .auth__field {
     margin-top: 8px;
     display: flex;
     -webkit-box-orient: vertical;
@@ -74,11 +74,11 @@
     flex-direction: column;
   }
   
-  .login__field:first-of-type {
+  .auth__field:first-of-type {
     margin-top: 0;
   }
 
-  .login__input {
+  .auth__input {
     width: 100%;
     margin: 0;
     padding: 0 0 10px;
@@ -90,19 +90,19 @@
     border-bottom: 2px solid #ccc;
   }
   
-  .login__input:focus {
+  .auth__input:focus {
     outline: none;
   }
   
-  .login__input::placeholder {
+  .auth__input::placeholder {
     color: #ccc;
   }
 
-  .login__input_invalid {
+  .auth__input_invalid {
     border-bottom: 2px solid #F00;
   }
 
-  .login__input-error {
+  .auth__input-error {
     min-height: 15px;
     margin-top: 5px;
     font-size: 12px;
@@ -110,7 +110,7 @@
     color: #F00;
   }
 
-  .login__save-button {
+  .auth__save-button {
     width: 100%;
     height: 50px;
     margin: 196px 0 0;
@@ -124,23 +124,23 @@
     background-color: #fff;
   }
   
-  .login__save-button:hover {
+  .auth__save-button:hover {
     opacity: 0.8;
   }
 
-  .login__save-button_inactive {
+  .auth__save-button_inactive {
     background-color: #FFF;
     color: #000;
     border: 1px solid #000;
     opacity: 0.2;
   }
   
-  .login__save-button_inactive:hover {
+  .auth__save-button_inactive:hover {
     opacity: 0.2;
     cursor: auto;
   }
 
-  .login__link {
+  .auth__link {
       margin: 15px 0 0;
       text-decoration: none;
       color: #fff;
@@ -149,6 +149,6 @@
       text-align: center;
   }
 
-  .login__link:hover {
+  .auth__link:hover {
       opacity: 0.8;
   }

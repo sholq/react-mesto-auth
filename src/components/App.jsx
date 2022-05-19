@@ -130,7 +130,7 @@ function App() {
         <Header />
         <Switch>
           <Route path="/sign-in">
-            <Login />
+            <Login onLogin={null}/>
           </Route>
           <Route path="/sign-up"></Route>
           <ProtectedRoute loggedIn={loggedIn} component={Main}
