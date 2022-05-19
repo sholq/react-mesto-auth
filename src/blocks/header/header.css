@@ -1,6 +1,8 @@
 .header {
   max-width: 880px;
   /* Позиционирование */
+  display: flex;
+  justify-content: space-between;
   margin: 0 auto;
   padding: 45px 0 41px 0;
   -webkit-box-sizing: border-box;
