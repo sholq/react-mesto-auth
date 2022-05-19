@@ -12,6 +12,7 @@ import AddPlacePopup from './AddPlacePopup';
 import SubmitPopup from './SubmitPopup';
 import api from '../utils/Api';
 import ProtectedRoute from './ProtectedRoute';
+import Login from './Login';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -128,6 +129,10 @@ function App() {
       <div className="page">
         <Header />
         <Switch>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route path="/sign-up"></Route>
           <ProtectedRoute loggedIn={loggedIn} component={Main}
               cards={cards}
               onEditProfile={handleEditProfileClick} 
@@ -137,8 +142,6 @@ function App() {
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
             />
-          <Route path="/sign-in"></Route>
-          <Route path="/sign-up"></Route>
         </Switch>
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser} />
