@@ -1,15 +1,7 @@
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 
 function AuthPage(props) {
     const {name, title, children, buttonText, onSubmit, isValid, isEmpty, isSignIn} = props;
-
-    const history = useHistory();
-
-    const onLinkClick = (evt) => {
-      evt.preventDefault();
-      history.push("./sign-up");
-    }
 
     return (
       <section className="auth">
@@ -18,7 +10,7 @@ function AuthPage(props) {
           {children}
           <button className={"auth__save-button" + (isEmpty || !isValid ? " auth__save-button_inactive" : "")} type="submit" disabled={isEmpty || !isValid}>{buttonText}</button>
         </form>
-        {isSignIn && <a className="auth__link" href="./sing-up" onClick={withRouter(onLinkClick)}>Уже зарегистрированы? Войти</a>}
+        {isSignIn && <Link className="auth__link" to="/sign-up">Уже зарегистрированы? Войти</Link>}
       </section>
     )
   }
