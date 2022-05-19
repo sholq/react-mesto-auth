@@ -160,3 +160,21 @@ color: #fff;
 font-size: 18px;
 line-height: 22px;
 }
+
+.popup__icon {
+    margin: 26px auto 0;
+    width: 120px;
+    height: 120px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.popup__caption {
+    margin: 32px 0 26px;
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 900;
+    color: #000;
+    text-align: center;
+}
