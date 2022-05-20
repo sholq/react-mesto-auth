@@ -133,13 +133,13 @@ function App() {
       <div className="page">
         <Header />
         <Switch>
-          <Route path="/sign-up">
-            <Register onRegister={null} />
-          </Route>
-          <Route path="/sign-in">
-            <Login onLogin={null} />
-          </Route>
-          <ProtectedRoute loggedIn={loggedIn} component={Main}
+          <ProtectedRoute path="/sign-up" loggedIn={!loggedIn} component={Register} redirectTo="./"
+            onRegister={null}
+          />
+          <ProtectedRoute path="/sign-in" loggedIn={!loggedIn} component={Login} redirectTo="./"
+            onLogin={null}
+          />
+          <ProtectedRoute loggedIn={loggedIn} component={Main} redirectTo="./sign-in"
             cards={cards}
             onEditProfile={handleEditProfileClick} 
             onAddPlace={handleAddPlaceClick}
