@@ -31,7 +31,11 @@ function Login(props) {
   
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onLogin();
+    setButtonText(buttonText + '...');
+    onLogin(email.current.value, password.current.value)
+      .finally(() => {
+        setButtonText(buttonText);
+      });
   }
 
   useEffect(() => {

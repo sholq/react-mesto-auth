@@ -9,6 +9,7 @@ export const register = (email, password) => {
     body: JSON.stringify({email, password})
   })
     .then((response) => {
+      console.log(response.status)
       try {
         if (response.status === 201){
           return response.json();
@@ -28,8 +29,9 @@ export const login = (email, password) => {
     body: JSON.stringify({email, password})
   })
     .then((response) => {
+      console.log(response.status)
       try {
-        if (response.status === 201){
+        if (response.status === 200){
           return response.json();
         }
       } catch(e) {

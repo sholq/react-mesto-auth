@@ -15,7 +15,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from "./InfoTooltip";
-import {register} from "../utils/Auth"
+import {register, login} from "../utils/Auth"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -128,12 +128,27 @@ function App() {
         if (res) {
           setIsError(false);
           setIsInfoTooltipOpen(true);
+          console.log(res);
+          history.push("/sign-in");
         } else {
           setIsError(true);
           setIsInfoTooltipOpen(true);
         }
-        console.log(res);
-        history.push("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const handleLogin = (email, password) => {
+    return login(email, password)
+      .then(res => {
+        if (res) {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          // setLoggedIn(true);
+          // history.push("/");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -160,7 +175,7 @@ function App() {
             onRegister={handleRegister}
           />
           <ProtectedRoute path="/sign-in" loggedIn={!loggedIn} component={Login} redirectTo="./"
-            onLogin={null}
+            onLogin={handleLogin}
           />
           <ProtectedRoute loggedIn={loggedIn} component={Main} redirectTo="./sign-in"
             cards={cards}
