@@ -1,7 +1,9 @@
 import logoPath from '../image/Vector.svg';
 import {Link, Route, Switch} from "react-router-dom";
 
-function Header() {
+function Header(props) {
+  const {loginedUser} = props;
+
   return (
     <header className="header">
       <img className="header__logo" src={logoPath} alt="Логотип Место" />
@@ -14,7 +16,7 @@ function Header() {
         </Route>
         <Route path="/">
           <div className="header__constainer">
-            <p className="header__current-user">mail@mail.com</p>
+            <p className="header__current-user">{loginedUser.email}</p>
             <Link className="header__link" to="/sign-in">Выход</Link>
           </div>
         </Route>

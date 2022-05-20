@@ -15,7 +15,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from "./InfoTooltip";
-import {register, login} from "../utils/Auth"
+import {register, login, checkToken} from "../utils/Auth"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -33,6 +33,8 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
   const [isError, setIsError] = useState(false);
+
+  const [loginedUser, setLoginedUser] = useState({});
 
   const history = useHistory();
 
@@ -158,6 +160,22 @@ function App() {
       });
   }
 
+  const handleTokenCheck = () => {
+    const token = localStorage.getItem('token');
+    console.log(token)
+    if (token) {
+      return checkToken(token)
+        .then((user) => {
+          setLoginedUser(user.data)
+          setLoggedIn(true);
+          history.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }    
+  }
+
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
@@ -167,12 +185,13 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+      handleTokenCheck();
   }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header loginedUser={loginedUser}/>
         <Switch>
           <ProtectedRoute path="/sign-up" loggedIn={!loggedIn} component={Register} redirectTo="./"
             onRegister={handleRegister}

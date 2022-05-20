@@ -9,7 +9,6 @@ export const register = (email, password) => {
     body: JSON.stringify({email, password})
   })
     .then((response) => {
-      console.log(response.status)
       try {
         if (response.status === 201){
           return response.json();
@@ -29,7 +28,6 @@ export const login = (email, password) => {
     body: JSON.stringify({email, password})
   })
     .then((response) => {
-      console.log(response.status)
       try {
         if (response.status === 200){
           return response.json();
@@ -40,17 +38,17 @@ export const login = (email, password) => {
     })
 };
 
-export const email = (JWT) => {
+export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
-      "Authorization" : `Bearer ${JWT}`
+      "Authorization" : `Bearer ${token}`
     }
   })
     .then((response) => {
       try {
-        if (response.status === 201){
+        if (response.status === 200){
           return response.json();
         }
       } catch(e) {
