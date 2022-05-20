@@ -216,3 +216,11 @@ cursor: auto;
   color: #000;
   text-align: center;
 }
+
+@media screen and (max-width: 550px) {
+  .popup__caption {
+    margin: 40px 0 23px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
