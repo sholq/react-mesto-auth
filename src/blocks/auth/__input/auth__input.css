@@ -1,0 +1,31 @@
+.auth__input {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 10px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #fff;
+  background-color: #000;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  }
+  
+.auth__input:focus {
+  outline: none;
+}
+
+.auth__input::placeholder {
+  color: #ccc;
+}
+
+.auth__input_invalid {
+  border-bottom: 2px solid #F00;
+}
+
+.auth__input-error {
+  min-height: 15px;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 15px;
+  color: #F00;
+}
