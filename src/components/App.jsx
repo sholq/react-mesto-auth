@@ -143,26 +143,8 @@ function App() {
       });
   }
 
-  const handleLogin = (email, password) => {
-    return login(email, password)
-      .then(res => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          setLoggedIn(true);
-          history.push("/");
-          return res;
-        } else {
-          return;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   const handleTokenCheck = () => {
     const token = localStorage.getItem('token');
-    console.log(token)
     if (token) {
       return checkToken(token)
         .then((user) => {
@@ -174,6 +156,31 @@ function App() {
           console.log(err);
         });
     }    
+  }
+
+  const handleLogin = (email, password) => {
+    return login(email, password)
+      .then(user => {
+        if (user.token) {
+          localStorage.setItem('token', user.token);
+          setLoggedIn(true);
+          handleTokenCheck();
+          history.push("/");
+          return user;
+        } else {
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    setLoginedUser({});
+    history.push("/sign-in");
   }
 
   useEffect(() => {
@@ -191,7 +198,10 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loginedUser={loginedUser}/>
+        <Header
+          loginedUser={loginedUser}
+          signOut={handleSignOut}
+        />
         <Switch>
           <ProtectedRoute path="/sign-up" loggedIn={!loggedIn} component={Register} redirectTo="./"
             onRegister={handleRegister}
