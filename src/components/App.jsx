@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Switch, useHistory} from 'react-router-dom';
 import '../App.css';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
@@ -15,6 +15,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from "./InfoTooltip";
+import {register} from "../utils/Auth"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -30,6 +31,10 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+
+  const history = useHistory();
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -117,6 +122,24 @@ function App() {
       });
   }
 
+  const handleRegister = (email, password) => {
+    return register(email, password)
+      .then(res => {
+        if (res) {
+          setIsError(false);
+          setIsInfoTooltipOpen(true);
+        } else {
+          setIsError(true);
+          setIsInfoTooltipOpen(true);
+        }
+        console.log(res);
+        history.push("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
@@ -134,7 +157,7 @@ function App() {
         <Header />
         <Switch>
           <ProtectedRoute path="/sign-up" loggedIn={!loggedIn} component={Register} redirectTo="./"
-            onRegister={null}
+            onRegister={handleRegister}
           />
           <ProtectedRoute path="/sign-in" loggedIn={!loggedIn} component={Login} redirectTo="./"
             onLogin={null}
@@ -155,7 +178,7 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopup} onAddPlace={handleAddPlace} />
         <SubmitPopup isOpen={isSubmitPopupOpen} onClose={closeAllPopup} onSubmit={handleCardDeleteSubmit} />
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopup} />
-        <InfoTooltip isError={true} isOpen={isInfoTooltipOpen} onClose={closeAllPopup} />
+        <InfoTooltip isError={isError} isOpen={isInfoTooltipOpen} onClose={closeAllPopup} />
       </div>
     </CurrentUserContext.Provider>
   );

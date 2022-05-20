@@ -15,7 +15,7 @@ function Login(props) {
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const [passwordValidationMessage, setPasswordValidationMessage] = useState('');
   
-  const [buttonText, setButtonText] = useState('Зарегистрироваться');
+  const [buttonText, setButtonText] = useState('Войти');
 
   const handleEmailChange = (evt) => {
     setIsEmailValid(evt.target.validity.valid);
@@ -50,12 +50,11 @@ function Login(props) {
   return (
     <AuthPage
       name="login"
-      title="Регистрация"
+      title="Вход"
       buttonText={buttonText}
       isValid={isEmailValid && isPasswordValid}
       isEmpty={isEmailEmpty || isPasswordEmpty}
       onSubmit={handleSubmit}
-      isSignIn={true}
     >
       <label className="auth__field">
         <input ref={email} className={"auth__input" + (!isEmailValid ? " auth__input_invalid" : "")} type="text" name="email" placeholder="E-mail" autoComplete="off" minLength="2" maxLength="30" required onChange={handleEmailChange}/>

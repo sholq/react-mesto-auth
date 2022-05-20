@@ -15,7 +15,7 @@ function Register(props) {
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const [passwordValidationMessage, setPasswordValidationMessage] = useState('');
   
-  const [buttonText, setButtonText] = useState('Войти');
+  const [buttonText, setButtonText] = useState('Зарегистрироваться');
 
   const handleEmailChange = (evt) => {
     setIsEmailValid(evt.target.validity.valid);
@@ -31,7 +31,11 @@ function Register(props) {
   
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onRegister();
+    setButtonText(buttonText + '...');
+    onRegister(email.current.value, password.current.value)
+      .finally(() => {
+        setButtonText(buttonText);
+      });
   }
 
   useEffect(() => {
@@ -50,11 +54,12 @@ function Register(props) {
   return (
     <AuthPage
       name="Register"
-      title="Вход"
+      title="Регистрация"
       buttonText={buttonText}
       isValid={isEmailValid && isPasswordValid}
       isEmpty={isEmailEmpty || isPasswordEmpty}
       onSubmit={handleSubmit}
+      isSignIn={true}
     >
       <label className="auth__field">
         <input ref={email} className={"auth__input" + (!isEmailValid ? " auth__input_invalid" : "")} type="text" name="email" placeholder="E-mail" autoComplete="off" minLength="2" maxLength="30" required onChange={handleEmailChange}/>
