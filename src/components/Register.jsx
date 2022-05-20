@@ -33,6 +33,12 @@ function Register(props) {
     evt.preventDefault();
     setButtonText(buttonText + '...');
     onRegister(email.current.value, password.current.value)
+      .then(res => {
+        if (res) {
+          email.current.value = '';
+          password.current.value = '';
+        }
+      })
       .finally(() => {
         setButtonText(buttonText);
       });

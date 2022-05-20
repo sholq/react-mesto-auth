@@ -128,11 +128,12 @@ function App() {
         if (res) {
           setIsError(false);
           setIsInfoTooltipOpen(true);
-          console.log(res);
           history.push("/sign-in");
+          return res;
         } else {
           setIsError(true);
           setIsInfoTooltipOpen(true);
+          return;
         }
       })
       .catch((err) => {
@@ -143,11 +144,13 @@ function App() {
   const handleLogin = (email, password) => {
     return login(email, password)
       .then(res => {
-        if (res) {
-          console.log(res);
+        if (res.token) {
           localStorage.setItem('token', res.token);
-          // setLoggedIn(true);
-          // history.push("/");
+          setLoggedIn(true);
+          history.push("/");
+          return res;
+        } else {
+          return;
         }
       })
       .catch((err) => {
