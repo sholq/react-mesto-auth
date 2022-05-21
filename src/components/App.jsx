@@ -198,7 +198,7 @@ function App() {
         !unmounted && setIsTokenWasChecked(true);
       })
     return () => unmounted = true;
-  }, [history]);
+  }, []);
 
 
   return (
