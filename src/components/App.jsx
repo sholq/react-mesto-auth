@@ -15,7 +15,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from "./InfoTooltip";
-import {register, login, checkToken} from "../utils/Auth"
+import authentication from "../utils/Auth"
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -125,7 +125,7 @@ function App() {
   }
 
   const handleRegister = (email, password) => {
-    return register(email, password)
+    return authentication.register(email, password)
       .then(res => {
         if (res) {
           setIsError(false);
@@ -146,7 +146,7 @@ function App() {
   const handleTokenCheck = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      return checkToken(token)
+      authentication.checkToken(token)
         .then((user) => {
           setLoginedUser(user.data)
           setLoggedIn(true);
@@ -159,7 +159,7 @@ function App() {
   }
 
   const handleLogin = (email, password) => {
-    return login(email, password)
+    return authentication.login(email, password)
       .then(user => {
         if (user.token) {
           localStorage.setItem('token', user.token);

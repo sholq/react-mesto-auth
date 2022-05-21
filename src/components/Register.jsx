@@ -45,16 +45,14 @@ function Register(props) {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      email.current.value = null;
-      password.current.value = null;
-      setEmailValidationMessage('');
-      setPasswordValidationMessage('');
-      setIsEmailValid(true);
-      setIsEmailEmpty(true);
-      setIsPasswordValid(true);
-      setIsPasswordEmpty(true);
-    }, 501)
+    email.current.value = null;
+    password.current.value = null;
+    setEmailValidationMessage('');
+    setPasswordValidationMessage('');
+    setIsEmailValid(true);
+    setIsEmailEmpty(true);
+    setIsPasswordValid(true);
+    setIsPasswordEmpty(true);
   }, []);
 
   return (

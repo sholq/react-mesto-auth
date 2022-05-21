@@ -1,58 +1,54 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+class Auth {
+  constructor(options) {
+    this._baseUrl = options.baseUrl;
+  }
 
-export const register = (email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email, password})
-  })
-    .then((response) => {
+  _checkRes(res) {
       try {
-        if (response.status === 201){
-          return response.json();
+        if (res.status === 200 || res.status === 201){
+          return res.json();
         }
       } catch(e) {
         return (e)
       }
-    })
-};
+  }
 
-export const login = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email, password})
-  })
-    .then((response) => {
-      try {
-        if (response.status === 200){
-          return response.json();
-        }
-      } catch(e) {
-        return (e)
+  register(email, password) {
+    return fetch(`${this._baseUrl}/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email, password})
+    })
+      .then(this._checkRes)
+  }
+
+  login(email, password) {
+    return fetch(`${this._baseUrl}/signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email, password})
+    })
+      .then(this._checkRes)
+  }
+
+  checkToken(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : `Bearer ${token}`
       }
     })
-};
+      .then(this._checkRes)
+  }
+}
 
-export const checkToken = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization" : `Bearer ${token}`
-    }
-  })
-    .then((response) => {
-      try {
-        if (response.status === 200){
-          return response.json();
-        }
-      } catch(e) {
-        return (e)
-      }
-    })
-};
+const authentication = new Auth({
+  baseUrl: 'https://auth.nomoreparties.co',
+});
+
+export default authentication;
