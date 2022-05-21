@@ -29,14 +29,14 @@ function AuthPage(props) {
             email.current.value = '';
             password.current.value = '';
           }
-        })
-        .finally(res => {
-          setButtonText(buttonText);
           if (!res) {
             setEmailValidationMessage('Что-то пошло не так');
             setIsEmailValid(false);
             setIsPasswordValid(false);
           }
+        })
+        .finally(() => {
+          setButtonText(buttonText);
         });
     }
   }

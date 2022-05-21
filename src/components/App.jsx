@@ -1,7 +1,10 @@
 import {useState, useEffect} from 'react';
-import {Switch, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory} from 'react-router-dom';
+
 import '../App.css';
+
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -10,17 +13,18 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import SubmitPopup from './SubmitPopup';
-import api from '../utils/Api';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from "./InfoTooltip";
-import authentication from "../utils/Auth"
+
+import {api, authentication} from '../utils/Api';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
@@ -33,8 +37,6 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
   const [isFail, setIsFail] = useState(false);
-
-  const [loggedInUser, setLoggedInUser] = useState({});
 
   const history = useHistory();
 
@@ -145,16 +147,15 @@ function App() {
   const handleTokenCheck = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      authentication.checkToken(token)
-        .then((user) => {
+      return authentication.checkToken(token)
+        .then(user => {
           setLoggedInUser(user.data)
           setLoggedIn(true);
-          history.push("/");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
-        });
-    }    
+        })
+    }
   }
 
   const handleLogin = (email, password) => {
@@ -163,12 +164,14 @@ function App() {
         if (user.token) {
           localStorage.setItem('token', user.token);
           setLoggedIn(true);
-          handleTokenCheck();
-          history.push("/");
+          handleTokenCheck()
+            .then(() => {
+              history.push("/");
+            });
           return user;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }
@@ -186,11 +189,15 @@ function App() {
         setCurrentUser(userData);
         setCards(cards);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
-      handleTokenCheck();
+    handleTokenCheck()
+      .then(() => {
+        history.push("/");
+      })
   }, []);
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -200,15 +207,19 @@ function App() {
           signOut={handleSignOut}
         />
         <Switch>
-          <ProtectedRoute path="/sign-up" loggedIn={!loggedIn} component={Register} redirectTo="./"
-            onRegister={handleRegister}
-          />
-          <ProtectedRoute path="/sign-in" loggedIn={!loggedIn} component={Login} redirectTo="./"
-            onLogin={handleLogin}
-          />
+          <Route path="/sign-up">
+            <Register
+              onRegister={handleRegister}
+            />
+          </Route>
+          <Route path="/sign-in">
+            <Login
+              onLogin={handleLogin}
+            />
+          </Route>
           <ProtectedRoute loggedIn={loggedIn} component={Main} redirectTo="./sign-in"
             cards={cards}
-            onEditProfile={handleEditProfileClick} 
+            onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
