@@ -8,11 +8,11 @@ function Register(props) {
   const password = useRef();
 
   const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(true);
   const [emailValidationMessage, setEmailValidationMessage] = useState('');
   
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
   const [passwordValidationMessage, setPasswordValidationMessage] = useState('');
   
   const [buttonText, setButtonText] = useState('Зарегистрироваться');

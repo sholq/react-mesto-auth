@@ -23,15 +23,3 @@
 .auth__save-button:hover {
   opacity: 0.8;
 }
-
-.auth__save-button_inactive {
-  background-color: #FFF;
-  color: #000;
-  border: 1px solid #000;
-  opacity: 0.2;
-}
-
-.auth__save-button_inactive:hover {
-  opacity: 0.2;
-  cursor: auto;
-}
