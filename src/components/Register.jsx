@@ -39,9 +39,13 @@ function Register(props) {
           password.current.value = '';
         }
       })
-      .finally(() => {
+      .finally(res => {
         setButtonText(buttonText);
-      });
+        if (!res) {
+          setEmailValidationMessage('Проверьте формат e-mail: example@example.com');
+          setIsEmailValid(false);
+          setIsPasswordValid(false);
+      }});
   }
 
   useEffect(() => {

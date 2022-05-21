@@ -39,8 +39,13 @@ function Login(props) {
           password.current.value = '';
         }
       })
-      .finally(() => {
+      .finally(res => {
         setButtonText(buttonText);
+        if (!res) {
+          setEmailValidationMessage('Неверный адрес или пароль');
+          setIsEmailValid(false);
+          setIsPasswordValid(false);
+        }
       });
   }
 
