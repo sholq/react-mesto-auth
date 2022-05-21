@@ -43,8 +43,8 @@ function AddPlacePopup(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      name.current.value = null;
-      link.current.value = null;
+      name.current.value = '';
+      link.current.value = '';
       setNameValidationMessage('');
       setLinkValidationMessage('');
       setIsNameValid(true);

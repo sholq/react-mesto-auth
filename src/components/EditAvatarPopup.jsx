@@ -31,7 +31,7 @@ function EditAvatarPopup(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      avatar.current.value = null;
+      avatar.current.value = '';
       setValidationMessage('');
       setIsValid(true);
       setIsEmpty(true);
