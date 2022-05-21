@@ -1,27 +1,43 @@
 import logoPath from '../image/Vector.svg';
 import {Link, Route, Switch} from "react-router-dom";
+import {useState} from "react";
 
 function Header(props) {
   const {loginedUser, signOut} = props;
 
+  const [isBarOpen, setIsBarOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsBarOpen(!isBarOpen);
+  }
+
   return (
-    <header className="header">
-      <img className="header__logo" src={logoPath} alt="Логотип Место" />
-      <Switch>
-        <Route path="/sign-in">
+    <Switch>
+      <Route path="/sign-in">
+        <header className="header">
+          <img className="header__logo" src={logoPath} alt="Логотип Место" />
           <Link className="header__link" to="/sign-up">Регистрация</Link>
-        </Route>
-        <Route path="/sign-up">
+        </header>
+      </Route>
+      <Route path="/sign-up">
+        <header className="header">
+          <img className="header__logo" src={logoPath} alt="Логотип Место" />
           <Link className="header__link" to="/sign-in">Войти</Link>
-        </Route>
-        <Route path="/">
-          <div className="header__constainer">
+        </header>
+      </Route>
+      <Route path="/">
+        <header className="header">
+          <div className={"header__container" + (isBarOpen ? " header__container_open" : "")}>
             <p className="header__current-user">{loginedUser.email}</p>
-            <Link className="header__link" to="/sign-in" onClick={signOut}>Выход</Link>
+            <Link className="header__link header__link_type_exit" to="/sign-in" onClick={signOut}>Выйти</Link>
           </div>
-        </Route>
-      </Switch>
-    </header>
+          <div className="header__wrap" >
+            <img className="header__logo" src={logoPath} alt="Логотип Место" />
+            <button className={"header__button" + (isBarOpen ? " header__button_icon_close" : "")} onClick={handleButtonClick} />
+          </div>
+        </header>
+      </Route>
+    </Switch>
   )
 }
 

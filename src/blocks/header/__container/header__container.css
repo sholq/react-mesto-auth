@@ -1,0 +1,26 @@
+.header__container {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    display: flex;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 920px) {
+    .header__container {
+        top: 28px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .header__container {
+        width: 100%;
+        padding: 6px 0 67px;
+        position: static;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 6px;
+    }
+}
