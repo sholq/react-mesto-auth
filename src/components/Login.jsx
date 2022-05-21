@@ -21,7 +21,7 @@ function Login(props) {
     setEmailValidationMessage(email.current.validationMessage);
     setIsPasswordValid(password.current.validity.valid);
     setPasswordValidationMessage(password.current.validationMessage);
-    if (email.current.validity.valid && password.current.validity.valid) {
+    if (isEmailValid && isPasswordValid) {
       setButtonText(buttonText + '...');
       onLogin(email.current.value, password.current.value)
         .then(res => {

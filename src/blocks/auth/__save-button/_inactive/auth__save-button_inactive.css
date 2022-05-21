@@ -1,9 +1,0 @@
-.auth__save-button_inactive {
-    border: 1px solid #000;
-    opacity: 0.2;
-    cursor: auto;
-}
-
-.auth__save-button_inactive:hover {
-    opacity: 0.2;
-}
