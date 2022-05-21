@@ -3,7 +3,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import {useState} from "react";
 
 function Header(props) {
-  const {loginedUser, signOut} = props;
+  const {loggedInUser, signOut} = props;
 
   const [isBarOpen, setIsBarOpen] = useState(false);
 
@@ -28,7 +28,7 @@ function Header(props) {
       <Route path="/">
         <header className="header">
           <div className={"header__container" + (isBarOpen ? " header__container_open" : "")}>
-            <p className="header__current-user">{loginedUser.email}</p>
+            <p className="header__current-user">{loggedInUser.email}</p>
             <Link className="header__link header__link_type_exit" to="/sign-in" onClick={signOut}>Выйти</Link>
           </div>
           <div className="header__wrap" >

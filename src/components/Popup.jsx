@@ -29,7 +29,7 @@ function Popup(props) {
       <div className={"popup" + (isOpen ? " popup_opened" : "")} onClick={handleOverlayClosing}>
         <div className={"popup__container" + (isImage ? " popup__container_type_element" : "")}>
           {children}
-          <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose}></button>
+          <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose} />
         </div>
       </div> 
     )

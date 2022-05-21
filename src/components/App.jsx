@@ -32,9 +32,9 @@ function App() {
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
-  const [isError, setIsError] = useState(false);
+  const [isFail, setIsFail] = useState(false);
 
-  const [loginedUser, setLoginedUser] = useState({});
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   const history = useHistory();
 
@@ -128,14 +128,13 @@ function App() {
     return authentication.register(email, password)
       .then(res => {
         if (res) {
-          setIsError(false);
+          setIsFail(false);
           setIsInfoTooltipOpen(true);
           history.push("/sign-in");
           return res;
         } else {
-          setIsError(true);
+          setIsFail(true);
           setIsInfoTooltipOpen(true);
-          return;
         }
       })
       .catch((err) => {
@@ -148,7 +147,7 @@ function App() {
     if (token) {
       authentication.checkToken(token)
         .then((user) => {
-          setLoginedUser(user.data)
+          setLoggedInUser(user.data)
           setLoggedIn(true);
           history.push("/");
         })
@@ -167,8 +166,6 @@ function App() {
           handleTokenCheck();
           history.push("/");
           return user;
-        } else {
-          return;
         }
       })
       .catch((err) => {
@@ -179,7 +176,7 @@ function App() {
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
-    setLoginedUser({});
+    setLoggedInUser({});
     history.push("/sign-in");
   }
 
@@ -199,7 +196,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header
-          loginedUser={loginedUser}
+          loggedInUser={loggedInUser}
           signOut={handleSignOut}
         />
         <Switch>
@@ -225,7 +222,7 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopup} onAddPlace={handleAddPlace} />
         <SubmitPopup isOpen={isSubmitPopupOpen} onClose={closeAllPopup} onSubmit={handleCardDeleteSubmit} />
         <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopup} />
-        <InfoTooltip isError={isError} isOpen={isInfoTooltipOpen} onClose={closeAllPopup} />
+        <InfoTooltip isFail={isFail} isOpen={isInfoTooltipOpen} onClose={closeAllPopup} />
       </div>
     </CurrentUserContext.Provider>
   );

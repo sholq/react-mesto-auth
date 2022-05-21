@@ -15,11 +15,11 @@ function Main(props) {
           </div>
           <div className="profile__info">
             <h1 className="profile__name">{name}</h1>
-            <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick={onEditProfile}></button>
+            <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick={onEditProfile} />
             <p className="profile__description">{about}</p>
           </div>
         </div>
-        <button className="profile__add-button" type="button" aria-label="Добавить" onClick={onAddPlace}></button>
+        <button className="profile__add-button" type="button" aria-label="Добавить" onClick={onAddPlace} />
       </section>
 
       <section className="elements">
