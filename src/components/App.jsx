@@ -152,12 +152,13 @@ function App() {
         .then(user => {
           setLoggedInUser(user.data)
           setLoggedIn(true);
+          history.push("/");
         })
         .catch(err => {
           console.log(err);
         })
     }
-    return Promise.reject();
+    return Promise.resolve();
   }
 
   const handleLogin = (email, password) => {
@@ -166,10 +167,7 @@ function App() {
         if (user.token) {
           localStorage.setItem('token', user.token);
           setLoggedIn(true);
-          handleTokenCheck()
-            .then(() => {
-              history.push("/");
-            });
+          handleTokenCheck();
           return user;
         }
       })
@@ -196,9 +194,6 @@ function App() {
         console.log(err);
       });
     handleTokenCheck()
-      .then(() => {
-        history.push("/");
-      })
       .finally(() => {
         !unmounted && setIsTokenWasChecked(true);
       })
