@@ -25,6 +25,7 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({});
+  const [isTokenWasChecked, setIsTokenWasChecked] = useState(false)
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
@@ -156,6 +157,7 @@ function App() {
           console.log(err);
         })
     }
+    return Promise.reject();
   }
 
   const handleLogin = (email, password) => {
@@ -184,6 +186,7 @@ function App() {
   }
 
   useEffect(() => {
+    let unmounted = false;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
@@ -196,10 +199,15 @@ function App() {
       .then(() => {
         history.push("/");
       })
-  }, []);
+      .finally(() => {
+        !unmounted && setIsTokenWasChecked(true);
+      })
+    return () => unmounted = true;
+  }, [history]);
 
 
   return (
+    !isTokenWasChecked ? <div /> :
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header
